@@ -1,0 +1,8 @@
+gantt.config.date_grid = "{{ gantt.config.date_grid }}";
+gantt.config.step = {{ gantt.config.step }};
+gantt.config.scale_unit = "{{ gantt.config.scale_unit }}";
+gantt.init("{{ gantt.getName() }}");
+gantt.load("{{ gantt.ajax.url }}", "{{ gantt.ajax.format }}");
+
+let dp = new gantt.dataProcessor("{{ gantt.ajax.url }}");
+dp.init(gantt);
