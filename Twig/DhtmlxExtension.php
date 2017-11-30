@@ -27,14 +27,14 @@ class DhtmlxExtension extends \Twig_Extension
 
     public function renderGanttJs(AbstractGantt $gantt)
     {
-        return $this->twig->render("@Scheduler/gantt.js.twig", [
+        return $this->twig->render("@Dhtmlx/gantt.js.twig", [
             'gantt' => $gantt
         ]);
     }
 
     public function renderGanttHtml(AbstractGantt $gantt)
     {
-        return $this->twig->render("gantt.html.twig", [
+        return $this->twig->render("@Dhtmlx/gantt.html.twig", [
             'gantt' => $gantt
         ]);
     }
