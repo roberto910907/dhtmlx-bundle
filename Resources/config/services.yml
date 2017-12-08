@@ -5,6 +5,6 @@ services:
         
     jsh11.dhtmlx.twig_extension:
         class: jsh11\DhtmlxBundle\Twig\DhtmlxExtension
-        arguments: ["@twig", "@doctrine.orm.entity_manager"]
+        arguments: ["@twig", "@form.factory"]
         tags:
             - { name: twig.extension } 

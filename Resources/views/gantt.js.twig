@@ -1,8 +1,77 @@
 gantt.config.date_grid = "{{ gantt.config.date_grid }}";
 gantt.config.step = {{ gantt.config.step }};
 gantt.config.scale_unit = "{{ gantt.config.scale_unit }}";
+gantt.showLightbox = function (id) {
+    let task = gantt.getTask(id),
+        server = task.server !== undefined,
+        path,
+        title,
+        buttons = {};
+
+    if (server === false) {
+        path = Routing.generate('test_new');
+        title = 'New Task';
+    } else {
+        path = Routing.generate('test_edit', {id: id});
+        title = 'Edit Task';
+
+        buttons.deleteAction = {
+            btnClass: 'btn-red',
+            text: 'Eliminar',
+            action: function () {
+                $.get(Routing.generate('test_delete', {id: id}), function () {
+                    reload();
+                });
+            }
+        }
+    }
+
+    buttons.cancelAction = {
+        text: 'Cancelar',
+        action: function () {
+            reload();
+        }
+    };
+
+    buttons.submitAction = {
+        text: 'Aceptar',
+        btnClass: 'btn-blue',
+        action: function (event) {
+            let form = $(dialog.$content).find('form');
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    reload();
+                }
+            });
+        }
+    };
+
+    let dialog = $.confirm({
+        title: title,
+        boxWidth: '50%',
+        useBootstrap: false,
+        content: 'url:' + path,
+        buttons: buttons,
+        onContentReady: function () {
+            let jc = this;
+            this.$content.find('form').on('submit', function (e) {
+                e.preventDefault();
+                jc.$$formSubmit.trigger('click');
+            });
+        }
+    });
+}
+
 gantt.init("{{ gantt.getName() }}");
 gantt.load("{{ gantt.ajax.url }}", "{{ gantt.ajax.format }}");
-
 let dp = new gantt.dataProcessor("{{ gantt.ajax.url }}");
 dp.init(gantt);
+
+function reload() {
+    gantt.clearAll();
+    gantt.load("{{ gantt.ajax.url }}", "{{ gantt.ajax.format }}");
+}

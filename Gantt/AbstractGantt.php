@@ -12,16 +12,15 @@ abstract class AbstractGantt implements GanttInterface
 {
     /** @var Router $router */
     protected $router;
-
     /** @var EntityManager $entityManager */
     protected $entityManager;
-
     /** @var  Request $request */
     protected $request;
 
     protected $ajax = array();
     protected $config = array();
     protected $mapping = array();
+    protected $form;
     protected $editing = false;
 
     /**
@@ -70,6 +69,24 @@ abstract class AbstractGantt implements GanttInterface
     public function setMapping(array $mapping)
     {
         $this->mapping = $mapping;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param  $form
+     * @return AbstractGantt
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
+        return $this;
     }
 
     /**
@@ -131,7 +148,6 @@ abstract class AbstractGantt implements GanttInterface
         $this->request = $request;
         $this->editing = $request->query->get('editing');
 
-        // TODO verificar por la key nativeeditor_status
         if ($this->editing) {
             $this->edit();
         }
@@ -176,11 +192,17 @@ abstract class AbstractGantt implements GanttInterface
                 'start_date' => $accessor->getValue($entity, $this->mapping['start_date'])->format('d.m.Y'),
                 'duration' => $accessor->getValue($entity, $this->mapping['duration']),
                 'progress' => $accessor->getValue($entity, $this->mapping['progress']),
+                'server' => true
             ];
         }
 
         return new JsonResponse([
             'data' => $data
         ]);
+    }
+
+    public function isSubmitted()
+    {
+        return $this->request->isXmlHttpRequest();
     }
 }
