@@ -3,7 +3,7 @@ DhtmlxBundle
 
 Installation
 ------------
-composer require jsh11/dhtmlx-bundle 1.1
+composer require jsh11/dhtmlx-bundle
 
 Register the bundle in `app/AppKernel.php`:
 
