@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Routing\Router;
 
 abstract class AbstractGantt implements GanttInterface
 {
@@ -18,7 +17,6 @@ abstract class AbstractGantt implements GanttInterface
     protected $ajax = array();
     protected $config = array();
     protected $mapping = array();
-    protected $form;
     protected $editing = false;
 
     /**
@@ -67,24 +65,6 @@ abstract class AbstractGantt implements GanttInterface
     public function setMapping(array $mapping)
     {
         $this->mapping = $mapping;
-    }
-
-    /**
-     * @return array
-     */
-    public function getForm()
-    {
-        return $this->form;
-    }
-
-    /**
-     * @param  $form
-     * @return AbstractGantt
-     */
-    public function setForm($form)
-    {
-        $this->form = $form;
-        return $this;
     }
 
     /**
