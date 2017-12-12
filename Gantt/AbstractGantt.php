@@ -10,8 +10,6 @@ use Symfony\Component\Routing\Router;
 
 abstract class AbstractGantt implements GanttInterface
 {
-    /** @var Router $router */
-    protected $router;
     /** @var EntityManager $entityManager */
     protected $entityManager;
     /** @var  Request $request */
@@ -108,24 +106,6 @@ abstract class AbstractGantt implements GanttInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getRouter()
-    {
-        return $this->router;
-    }
-
-    /**
-     * @param Router $router
-     * @return AbstractGantt
-     */
-    public function setRouter(Router $router)
-    {
-        $this->router = $router;
-        return $this;
-    }
-
-    /**
      * @return EntityManager
      */
     public function getEntityManager()
@@ -157,9 +137,7 @@ abstract class AbstractGantt implements GanttInterface
     {
         $data = $this->request->request->all();
         $id = $data['ids'];
-
         $repository = $this->entityManager->getRepository($this->getEntity());
-
         $accessor = PropertyAccess::createPropertyAccessor();
         $entity = $repository->find($id);
 

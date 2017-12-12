@@ -9,17 +9,17 @@ gantt.showLightbox = function (id) {
         buttons = {};
 
     if (server === false) {
-        path = Routing.generate('test_new');
+        path = Routing.generate("{{ gantt.ajax.route_new }}");
         title = 'New Task';
     } else {
-        path = Routing.generate('test_edit', {id: id});
+        path = Routing.generate("{{ gantt.ajax.route_edit }}", {id: id});
         title = 'Edit Task';
 
         buttons.deleteAction = {
             btnClass: 'btn-red',
             text: 'Eliminar',
             action: function () {
-                $.get(Routing.generate('test_delete', {id: id}), function () {
+                $.get(Routing.generate("{{ gantt.ajax.route_delete }}", {id: id}), function () {
                     reload();
                 });
             }
@@ -67,11 +67,12 @@ gantt.showLightbox = function (id) {
 }
 
 gantt.init("{{ gantt.getName() }}");
-gantt.load("{{ gantt.ajax.url }}", "{{ gantt.ajax.format }}");
-let dp = new gantt.dataProcessor("{{ gantt.ajax.url }}");
+let dpRoute = Routing.generate("{{ gantt.ajax.route_list }}");
+gantt.load(dpRoute, "json");
+let dp = new gantt.dataProcessor(dpRoute);
 dp.init(gantt);
 
 function reload() {
     gantt.clearAll();
-    gantt.load("{{ gantt.ajax.url }}", "{{ gantt.ajax.format }}");
+    gantt.load(Routing.generate("{{ gantt.ajax.route_list }}", "json"));
 }
